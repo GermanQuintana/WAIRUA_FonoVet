@@ -90,6 +90,20 @@ canvas{display:block;width:100%;border-radius:4px;touch-action:pan-y}
 .form textarea{min-height:80px;resize:vertical}
 .legal{font-size:13px;color:var(--muted);margin:0;max-width:75ch}
 #i-estado{font-size:13px;color:var(--muted)}
+.tit{display:inline-flex;align-items:center;gap:7px}
+.info{font:italic 600 12px/1 Georgia,"Times New Roman",serif;width:18px;height:18px;flex:none;padding:0;border-radius:50%;border:1px solid var(--grid-strong);background:transparent;color:var(--muted);cursor:pointer;text-transform:none;letter-spacing:0}
+.info:hover{border-color:var(--trace);color:var(--trace)}
+.info:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+dialog{border:1px solid var(--grid-strong);border-radius:10px;background:var(--panel);color:var(--ink);padding:0;width:min(640px,calc(100vw - 32px));max-height:min(80vh,720px)}
+dialog::backdrop{background:rgba(8,14,18,.55)}
+.ayuda-cab{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--grid);position:sticky;top:0;background:var(--panel)}
+.ayuda-cab h2{font-size:16px;text-transform:none;letter-spacing:0;color:var(--ink)}
+#ayuda-c{padding:6px 18px 18px;font-size:14.5px}
+#ayuda-c h3{font-size:13px;font-weight:600;margin:16px 0 4px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+#ayuda-c p{margin:8px 0}
+#ayuda-c ul{margin:6px 0;padding-left:20px}
+#ayuda-c li{margin-bottom:5px}
+#ayuda-c .nota{border-left:3px solid var(--accent);padding:6px 10px;background:var(--bg);border-radius:0 6px 6px 0;font-size:13.5px}
 .notas{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .notas ol,.notas ul{margin:6px 0 0;padding-left:20px;font-size:14px}
 .notas li{margin-bottom:4px}
@@ -118,7 +132,7 @@ canvas{display:block;width:100%;border-radius:4px;touch-action:pan-y}
   <dl class="resumen">
     <div><dt>Grabación</dt><dd id="r-nombre">Ejemplo sintético</dd></div>
     <div><dt>Duración</dt><dd id="r-dur">–</dd></div>
-    <div><dt id="r-fc-t">FC estimada</dt><dd id="r-fc">–</dd>
+    <div><dt class="tit"><span id="r-fc-t">FC estimada</span><button class="info" type="button" data-info="fc" aria-label="Cómo se calcula la frecuencia cardiaca">i</button></dt><dd id="r-fc">–</dd>
       <div class="sub"><span id="r-fc-n"></span>
         <button class="btn mini" id="fc-mitad" type="button" title="La estimación cuenta de más: dividir entre dos">÷2</button>
         <button class="btn mini" id="fc-doble" type="button" title="La estimación cuenta de menos: multiplicar por dos">×2</button>
@@ -129,7 +143,7 @@ canvas{display:block;width:100%;border-radius:4px;touch-action:pan-y}
 
   <section class="controles" aria-label="Controles">
     <button class="btn primary" id="reproducir" type="button">Reproducir</button>
-    <label class="campo">Filtro
+    <label class="campo"><span class="tit">Filtro<button class="info" type="button" data-info="filtro" aria-label="Qué hace cada filtro">i</button></span>
       <select id="filtro">
         <option value="20-200">Corazón 20–200 Hz</option>
         <option value="20-600">Corazón y soplos 20–600 Hz</option>
@@ -164,7 +178,7 @@ canvas{display:block;width:100%;border-radius:4px;touch-action:pan-y}
   </section>
 
   <section class="panel">
-    <div class="panel-cab"><h2>Fonocardiograma</h2><span id="pista">Clic: situar el cursor. Arrastrar: seleccionar una zona.</span></div>
+    <div class="panel-cab"><span class="tit"><h2>Fonocardiograma</h2><button class="info" type="button" data-info="pcg" aria-label="Cómo leer el fonocardiograma">i</button></span><span id="pista">Clic: situar el cursor. Arrastrar: seleccionar una zona.</span></div>
     <canvas id="pcg" tabindex="0" aria-label="Traza del fonocardiograma"></canvas>
     <input type="range" id="posicion" min="0" max="1000" value="0" aria-label="Desplazar la ventana">
     <div class="acciones">
@@ -177,17 +191,17 @@ canvas{display:block;width:100%;border-radius:4px;touch-action:pan-y}
   </section>
 
   <section class="panel">
-    <div class="panel-cab"><h2>Espectrograma</h2><span>0–1000 Hz, misma ventana de tiempo, señal sin filtrar</span></div>
+    <div class="panel-cab"><span class="tit"><h2>Espectrograma</h2><button class="info" type="button" data-info="espectro" aria-label="Qué es el espectrograma y para qué sirve">i</button></span><span>0–1000 Hz, misma ventana de tiempo, señal sin filtrar</span></div>
     <canvas id="espectro" aria-label="Espectrograma"></canvas>
   </section>
 
   <section class="panel">
-    <div class="panel-cab"><h2>Muestras</h2><span>Se guardan mientras la página esté abierta</span></div>
+    <div class="panel-cab"><span class="tit"><h2>Muestras</h2><button class="info" type="button" data-info="muestras" aria-label="Cómo funcionan las muestras">i</button></span><span>Se guardan mientras la página esté abierta</span></div>
     <div class="galeria" id="galeria"></div>
   </section>
 
   <section class="panel">
-    <div class="panel-cab"><h2>Informe</h2><span>Lleva la selección actual o, si no hay, la ventana que estás viendo</span></div>
+    <div class="panel-cab"><span class="tit"><h2>Informe</h2><button class="info" type="button" data-info="informe" aria-label="Qué incluye el informe">i</button></span><span>Lleva la selección actual o, si no hay, la ventana que estás viendo</span></div>
     <div class="form">
       <h3>Veterinario</h3>
       <label class="campo">Centro<input type="text" id="i-centro"></label>
@@ -237,6 +251,11 @@ canvas{display:block;width:100%;border-radius:4px;touch-action:pan-y}
     </div>
   </section>
 </main>
+
+<dialog id="ayuda" aria-labelledby="ayuda-t">
+  <div class="ayuda-cab"><h2 id="ayuda-t"></h2><button class="btn sm" type="button" id="ayuda-x">Cerrar</button></div>
+  <div id="ayuda-c"></div>
+</dialog>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
@@ -704,6 +723,105 @@ if(window.ResizeObserver)new ResizeObserver(redrawAll).observe(pcg);else window.
 try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",redrawAll)}catch(e){}
 new MutationObserver(redrawAll).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(redrawAll);
+
+/* ---------- ayuda ---------- */
+const AYUDA={
+pcg:["Cómo leer el fonocardiograma",`
+<p>Es el sonido del corazón dibujado en el tiempo. El eje horizontal son segundos y el vertical la intensidad del sonido en cada instante.</p>
+<h3>Qué se ve</h3>
+<ul>
+<li><b>Traza azul</b>: la señal, ya pasada por el filtro elegido. Cada tono cardiaco aparece como un paquete breve de oscilaciones.</li>
+<li><b>Envolvente (línea roja)</b>: el contorno de la intensidad. Facilita ver dónde empieza y acaba cada sonido y comparar unos latidos con otros.</li>
+<li><b>Triángulos</b>: los latidos que se han contado para la frecuencia cardiaca. Oscuros los automáticos, rojos los que añades tú.</li>
+<li><b>Rejilla</b>: líneas verticales de tiempo. Las más marcadas llevan su etiqueta en segundos.</li>
+</ul>
+<h3>Cómo se maneja</h3>
+<ul>
+<li><b>Clic</b>: coloca el cursor de reproducción.</li>
+<li><b>Arrastrar</b>: selecciona una zona. Con ella puedes reproducirla, guardarla como muestra, eliminarla o quedarte solo con ella.</li>
+<li><b>Editar marcas</b>: con la casilla activada, un clic añade una marca y un clic sobre una marca la quita.</li>
+<li><b>Ganancia</b>: amplía lo que ves y oyes. No cambia el cálculo de la frecuencia.</li>
+<li><b>Ventana</b>: cuántos segundos caben en pantalla. La barra inferior desplaza la vista.</li>
+</ul>
+<p class="nota">Un soplo se ve como vibración sostenida entre los tonos, donde debería haber silencio. Que se vea o no depende mucho del filtro y de la calidad de la grabación.</p>`],
+espectro:["Qué es el espectrograma y para qué sirve",`
+<p>La traza dice <b>cuándo</b> hay sonido y con qué intensidad. El espectrograma añade <b>de qué frecuencia</b> es ese sonido.</p>
+<h3>Cómo se lee</h3>
+<ul>
+<li><b>Eje horizontal</b>: el tiempo, alineado con la traza de arriba.</li>
+<li><b>Eje vertical</b>: la frecuencia, de 0 Hz (graves, abajo) a 1000 Hz (agudos, arriba), en escala lineal.</li>
+<li><b>Color</b>: cuanto más intenso, más energía hay en esa frecuencia y en ese momento.</li>
+</ul>
+<p>Es un espectrograma lineal, no de mel. La escala mel comprime los agudos imitando al oído y se usa sobre todo en voz. En auscultación cardiaca casi todo lo relevante está por debajo de 600 Hz y la escala lineal se lee mejor.</p>
+<h3>Para qué sirve</h3>
+<ul>
+<li><b>Distinguir tonos de soplos</b>. S1 y S2 son golpes breves y graves: columnas estrechas concentradas abajo. Un soplo dura más y suele subir más en frecuencia: una mancha ancha entre S1 y S2 si es sistólico, o después de S2 si es diastólico.</li>
+<li><b>Describir un soplo</b>. Se aprecia cuánto dura dentro del ciclo, si crece, decrece o se mantiene, y si es grave o agudo.</li>
+<li><b>Reconocer ruido</b>. El roce del fonendo o del pelo es una banda vertical que ocupa todas las frecuencias a la vez. Un zumbido eléctrico es una línea horizontal fija.</li>
+<li><b>Elegir filtro</b>. Se calcula sobre la señal sin filtrar, así que enseña dónde está la energía antes de decidir qué banda escuchar.</li>
+</ul>
+<p class="nota">Es una ayuda visual: no detecta ni clasifica nada. El audio llega ya procesado por el fonendo y por la compresión del archivo, y puede faltar parte de los graves.</p>`],
+fc:["Cómo se calcula la frecuencia cardiaca",`
+<p>Es una estimación automática a partir del sonido, no una medida de ECG.</p>
+<h3>Qué hace el cálculo</h3>
+<ul>
+<li>Busca en la envolvente el ritmo que más se repite, entre 40 y 300 latidos por minuto.</li>
+<li>Comprueba si se alternan dos sonidos distintos (S1 y S2) para contar uno solo por ciclo.</li>
+<li>Marca cada latido con un triángulo y calcula la frecuencia con la mediana de los intervalos entre marcas, que aguanta bien algún latido mal detectado.</li>
+</ul>
+<h3>Sobre qué tramo</h3>
+<p>Sin selección, usa toda la grabación. Si seleccionas dos segundos o más, usa solo ese tramo; el título de la casilla lo indica.</p>
+<h3>Cómo corregirla</h3>
+<ul>
+<li><b>Elimina el ruido</b> del principio o del final: es la causa más frecuente de error.</li>
+<li><b>÷2</b> si cuenta S1 y S2 como dos latidos. <b>×2</b> si se salta uno de cada dos.</li>
+<li><b>Editar marcas</b> para añadir o quitar latidos a mano. La frecuencia se recalcula con las marcas finales.</li>
+<li>El resultado depende del filtro. El de soplos suele separar mejor los tonos.</li>
+</ul>
+<p class="nota">En ritmos irregulares la mediana describe el intervalo más habitual, no la frecuencia media. Mira siempre que las marcas caigan sobre los latidos.</p>`],
+filtro:["Qué hace cada filtro",`
+<p>El filtro deja pasar una banda de frecuencias y atenúa el resto. Cambia lo que ves en la traza, lo que oyes y el cálculo de la frecuencia. El espectrograma no cambia: siempre muestra la señal sin filtrar.</p>
+<ul>
+<li><b>Corazón 20–200 Hz</b>: tonos cardiacos, S3 y S4 y soplos graves. Parecido a auscultar con campana.</li>
+<li><b>Corazón y soplos 20–600 Hz</b>: visión general, tonos y la mayoría de los soplos.</li>
+<li><b>Soplos 100–600 Hz</b>: quita los graves de fondo y resalta soplos de frecuencia media y alta. Parecido al diafragma. Suele dar la frecuencia cardiaca más estable.</li>
+<li><b>Pulmón 100–1000 Hz</b>: ruidos respiratorios, con menos peso de los tonos cardiacos.</li>
+<li><b>Sin filtro</b>: la señal tal como llega.</li>
+</ul>
+<p class="nota">Por debajo de unos 50 Hz los altavoces de portátil y de móvil apenas suenan. Para escuchar los graves usa auriculares.</p>`],
+muestras:["Cómo funcionan las muestras",`
+<p>Una muestra es un tramo que guardas aparte para volver a escucharlo, compararlo o incluirlo en el informe.</p>
+<ul>
+<li><b>Guardar</b>: selecciona una zona en la traza y pulsa Guardar selección como muestra.</li>
+<li><b>Escuchar</b>: la reproduce con el filtro, la velocidad y la ganancia actuales.</li>
+<li><b>Abrir</b>: la lleva a la vista principal para medirla o recortarla. La grabación original sigue en la lista para volver a ella.</li>
+<li><b>Nombre</b>: se edita escribiendo sobre él, por ejemplo con el foco de auscultación.</li>
+</ul>
+<p class="nota">Las muestras viven mientras la página esté abierta. Al cerrarla o recargarla se pierden, así que genera el informe antes de salir.</p>`],
+informe:["Qué incluye el informe",`
+<p>Genera un PDF de una o varias páginas con:</p>
+<ul>
+<li>Los datos del veterinario, del paciente y del registro que rellenes. Los campos vacíos no aparecen.</li>
+<li>La traza del tramo seleccionado o, si no hay selección, de la ventana que estés viendo, con marcas y envolvente.</li>
+<li>El espectrograma del mismo tramo.</li>
+<li>La frecuencia cardiaca estimada, cuántos latidos se contaron y si las marcas se revisaron a mano.</li>
+<li>Las muestras guardadas, si dejas marcada la casilla.</li>
+<li>Tus observaciones y la línea de firma.</li>
+</ul>
+<p>Los datos del veterinario se recuerdan en este navegador. Los del paciente no se guardan en ningún sitio.</p>
+<p class="nota">El informe cierra siempre con el aviso de que es informativo y no constituye un diagnóstico: debe valorarse junto con la exploración física, la historia clínica y las pruebas complementarias.</p>`]
+};
+const dlg=$("ayuda");
+document.addEventListener("click",ev=>{
+  const b=ev.target.closest&&ev.target.closest(".info");if(!b)return;
+  ev.preventDefault();
+  const a=AYUDA[b.dataset.info];if(!a)return;
+  $("ayuda-t").textContent=a[0];$("ayuda-c").innerHTML=a[1];
+  if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","");
+  dlg.scrollTop=0;
+});
+$("ayuda-x").addEventListener("click",()=>{if(dlg.close)dlg.close();else dlg.removeAttribute("open")});
+dlg.addEventListener("click",ev=>{if(ev.target===dlg&&dlg.close)dlg.close()});
 
 /* ---------- informe ---------- */
 const PRINT={"--grid":"#e3e8ec","--grid-strong":"#b9c5ce","--trace":"#0f4c5c","--accent":"#c2385a","--muted":"#5a6a77","--ink":"#14212b","--panel":"#ffffff","--spec-lo":"#ffffff","--spec-mid":"#2f8fa3","--spec-hi":"#7a1232","--mono":"monospace"};
