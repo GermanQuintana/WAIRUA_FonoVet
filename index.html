@@ -64,6 +64,8 @@ select{background:var(--panel);border:1px solid var(--grid-strong);border-radius
 input[type=range]{accent-color:var(--trace);width:150px}
 .check{flex-direction:row;align-items:center;gap:6px;font-size:14px;color:var(--ink);padding-bottom:6px}
 .check input{accent-color:var(--accent)}
+.checks{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px 22px}
+.checks .check{padding-bottom:0}
 .panel{background:var(--panel);border:1px solid var(--grid);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
 .panel-cab{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline}
 .panel-cab span{font-size:13px;color:var(--muted)}
@@ -154,9 +156,11 @@ canvas{display:block;width:100%;border-radius:4px;touch-action:pan-y}
     <label class="campo"><span>Ganancia <output id="g-val">×3</output></span>
       <input type="range" id="ganancia" min="1" max="20" step="0.5" value="3">
     </label>
-    <label class="campo check"><input type="checkbox" id="envolvente" checked> Envolvente</label>
-    <label class="campo check"><input type="checkbox" id="marcas" checked> Marcas de latido</label>
-    <label class="campo check"><input type="checkbox" id="editar"> Editar marcas</label>
+    <div class="checks">
+      <label class="campo check"><input type="checkbox" id="envolvente" checked> Envolvente</label>
+      <label class="campo check"><input type="checkbox" id="marcas" checked> Marcas de latido</label>
+      <label class="campo check"><input type="checkbox" id="editar"> Editar marcas</label>
+    </div>
   </section>
 
   <section class="panel">
